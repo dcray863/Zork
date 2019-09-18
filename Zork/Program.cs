@@ -4,6 +4,12 @@ namespace Zork
 {
     class Program
     {
+        private static readonly string[] Rooms =
+        {
+            "Forest", "West of House", "Behind House", "Clearing", "Canyon View"
+        };
+        private static int locationIndex = 1;
+
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Zork!");
@@ -28,7 +34,10 @@ namespace Zork
                     case Commands.SOUTH:
                     case Commands.EAST:
                     case Commands.WEST:
-                        outputString = $"You moved {command}.";
+                        if (Move(command))
+                        {
+                            outputString = $"You moved {command}.\n" + Rooms[locationIndex];
+                        }
                         break;
 
                     default:
@@ -38,6 +47,18 @@ namespace Zork
 
                 Console.WriteLine(outputString);
             }
+        }
+
+        private static bool Move(Commands command)
+        {
+            bool canMove = false;
+
+            switch (command)
+            {
+                
+
+            }
+            return canMove;
         }
 
         private static Commands ToCommand(string commandString) => 
