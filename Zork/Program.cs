@@ -5,8 +5,7 @@ namespace Zork
 {
     class Program
     {
-        private static int rowIndex = 1;
-        private static int colIndex = 1;
+        private static (int Row, int Column) Location = (1, 1);
         private static readonly string[,] Rooms = {
             { "Rocky Trail", "South of House", "Canyon View"},
             { "Forest", "West of House", "Behind House" },
@@ -19,6 +18,13 @@ namespace Zork
             Commands.WEST,
             Commands.EAST
         };
+        private static string CurrentRoom
+        {
+            get
+            {
+                return Rooms[Location.Row, Location.Column];
+            }
+        }
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Zork!");
@@ -26,7 +32,7 @@ namespace Zork
             Commands command = Commands.UNKNOWN;
             while(command != Commands.QUIT)
             {
-                Console.WriteLine(Rooms[rowIndex, colIndex]);
+                Console.WriteLine(CurrentRoom);
                 Console.Write("> ");
                 command = ToCommand(Console.ReadLine().Trim());
 
@@ -67,30 +73,30 @@ namespace Zork
         {
             Assert.IsTrue(IsDirection(command), "Invalid Direction");
 
-            bool moveOK = false;
+            bool isValidMove = false;
             switch (command)
             {
-                case Commands.NORTH when rowIndex > 0:
-                    rowIndex--;
-                    moveOK = true;
+                case Commands.NORTH when Location.Row > 0:
+                    Location.Row--;
+                    isValidMove = true;
                     break;
-                case Commands.SOUTH when rowIndex < Rooms.GetLength(0) - 1:
-                    rowIndex++;
-                    moveOK = true;
+                case Commands.SOUTH when Location.Row < Rooms.GetLength(0) - 1:
+                    Location.Row++;
+                    isValidMove = true;
                     break;
-                case Commands.WEST when colIndex > 0:
-                    colIndex--;
-                    moveOK = true;
+                case Commands.WEST when Location.Column > 0:
+                    Location.Column--;
+                    isValidMove = true;
                     break;
-                case Commands.EAST when colIndex < Rooms.GetLength(1) - 1:
-                    colIndex++;
-                    moveOK = true;
+                case Commands.EAST when Location.Column < Rooms.GetLength(1) - 1:
+                    Location.Column++;
+                    isValidMove = true;
                     break;
 
                 default:
                     break;
             }
-            return moveOK;
+            return isValidMove;
         }
 
         private static bool IsDirection(Commands command) => Directions.Contains(command);
