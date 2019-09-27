@@ -5,8 +5,13 @@ namespace Zork
 {
     class Program
     {
-        private static int locIndex = 1;
-        private static readonly string[] Rooms = { "Forest", "West of House", "Behind House", "Clearing", "Canyon View" };
+        private static int rowIndex = 1;
+        private static int colIndex = 1;
+        private static readonly string[,] Rooms = {
+            { "Rocky Trail", "South of House", "Canyon View"},
+            { "Forest", "West of House", "Behind House" },
+            { "Dense Woods", "North of House", "Clearing" }
+        };
         private static readonly List<Commands> Directions = new List<Commands>
         {
             Commands.NORTH,
@@ -21,7 +26,7 @@ namespace Zork
             Commands command = Commands.UNKNOWN;
             while(command != Commands.QUIT)
             {
-                Console.WriteLine(Rooms[locIndex]);
+                Console.WriteLine(Rooms[rowIndex, colIndex]);
                 Console.Write("> ");
                 command = ToCommand(Console.ReadLine().Trim());
 
@@ -65,12 +70,20 @@ namespace Zork
             bool moveOK = false;
             switch (command)
             {
-                case Commands.WEST when locIndex > 0:
-                    locIndex--;
+                case Commands.NORTH when rowIndex > 0:
+                    rowIndex--;
                     moveOK = true;
                     break;
-                case Commands.EAST when locIndex < Rooms.Length - 1:
-                    locIndex++;
+                case Commands.SOUTH when rowIndex < Rooms.GetLength(0) - 1:
+                    rowIndex++;
+                    moveOK = true;
+                    break;
+                case Commands.WEST when colIndex > 0:
+                    colIndex--;
+                    moveOK = true;
+                    break;
+                case Commands.EAST when colIndex < Rooms.GetLength(1) - 1:
+                    colIndex++;
                     moveOK = true;
                     break;
 
