@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace Zork
 {
@@ -55,14 +58,14 @@ namespace Zork
 
             switch (command)
             {
-                
+
 
             }
             return canMove;
         }
 
-        private static Commands ToCommand(string commandString) => 
+        private static Commands ToCommand(string commandString) =>
             Enum.TryParse(commandString, true, out Commands result) ? result : Commands.UNKNOWN;
-        
+
     }
 }
